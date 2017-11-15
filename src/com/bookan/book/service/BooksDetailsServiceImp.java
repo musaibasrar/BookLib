@@ -42,6 +42,54 @@ public class BooksDetailsServiceImp implements BooksDetailsService{
 		result = booksDetailsDAO.deleteBook(id);
 		return result;
 	}
+
+	@Override
+	public String updateBookDetails(BooksDetails bookDetails) {
+		String result="fail";
+		result = booksDetailsDAO.updateBookDetails(bookDetails);
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public BooksDetails getBookdetails(int id) {
+		BooksDetails booksDetails = new BooksDetails();
+		booksDetails = null;
+		booksDetails = booksDetailsDAO.getBookDetails(id);
+		return booksDetails;
+	}
+
+	@Override
+	public List<BooksDetails> searchBooksByLanguage(String language) {
+		List<BooksDetails> booksDetails = new ArrayList<BooksDetails>();
+		booksDetails = null;
+		booksDetails = booksDetailsDAO.searchBooksByLanguage(language);
+		return booksDetails;
+	}
+
+	@Override
+	public List<BooksDetails> searchBooksByAuthor(String author) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BooksDetails> searchBooksByPublisher(String publisher) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BooksDetails> searchBooksByGenre(String genre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BooksDetails> searchBooksByTitle(String title) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	  
 }

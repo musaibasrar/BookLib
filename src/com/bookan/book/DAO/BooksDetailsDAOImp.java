@@ -49,6 +49,7 @@ public class BooksDetailsDAOImp implements BooksDetailsDAO{
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<BooksDetails> getAllBooks() {
 		List<BooksDetails> bookDetails = new ArrayList<BooksDetails>();
@@ -57,7 +58,6 @@ public class BooksDetailsDAOImp implements BooksDetailsDAO{
 			//transaction = session.beginTransaction();
 			Session session = this.sessionFactory.getCurrentSession();
 			bookDetails = session.createQuery("FROM BooksDetails").list();
-			
 
 			//transaction.commit();
 			
@@ -69,8 +69,26 @@ public class BooksDetailsDAOImp implements BooksDetailsDAO{
 	}
 
 	@Override
-	public void updateBooks(BooksDetails booksDetails) {
-		// TODO Auto-generated method stub
+	public String updateBookDetails(BooksDetails booksDetails) {
+		
+		String result="fail";
+		try {
+			// this.session = sessionFactory.openCurrentSession();
+			//transaction = session.beginTransaction();
+			Session session = this.sessionFactory.getCurrentSession();
+			session.saveOrUpdate(booksDetails);
+			result="success";
+			//transaction.commit();
+			
+		} catch (HibernateException hibernateException) {
+			//transaction.rollback();
+			hibernateException.printStackTrace();
+		} finally {
+			//session.close();
+			//return student;
+		}
+		
+		return result;
 		
 	}
 
@@ -112,6 +130,45 @@ public class BooksDetailsDAOImp implements BooksDetailsDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public BooksDetails getBookDetails(int id) {
+		BooksDetails bookDetails = new BooksDetails();
+		try {
+			// this.session = sessionFactory.openCurrentSession();
+			//transaction = session.beginTransaction();
+			Session session = this.sessionFactory.getCurrentSession();
+			bookDetails = (BooksDetails) session.createQuery("FROM BooksDetails where id="+id).uniqueResult();
+			
+
+			//transaction.commit();
+			
+		} catch (HibernateException hibernateException) {
+			//transaction.rollback();
+			hibernateException.printStackTrace();
+		} 
+		return bookDetails;
+	}
+
+	@Override
+	public List<BooksDetails> searchBooksByLanguage(String language) {
+		
+		List<BooksDetails> bookDetails = new ArrayList<BooksDetails>();
+		try {
+			// this.session = sessionFactory.openCurrentSession();
+			//transaction = session.beginTransaction();
+			Session session = this.sessionFactory.getCurrentSession();
+			bookDetails = session.createQuery("FROM BooksDetails where language like %").list();
+
+			//transaction.commit();
+			
+		} catch (HibernateException hibernateException) {
+			//transaction.rollback();
+			hibernateException.printStackTrace();
+		} 
+		return bookDetails;
+		
 	}
 
 	
